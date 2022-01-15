@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<StoreDocumentRequest>
+	<!-- Context is present in all request types -->
+	<Context>
+		<UserName>Wannes</UserName>
+		<!-- Identifier showing which application sent the request (as messages from all applications arrive on the same queue). -->
+		<Application>F507A58E-8104-4379-964F-ABC4107983D7</Application>
+		<!-- Identifier for the application so it knows what response it receives. -->
+		<RequestId>91940CA8-BF5C-400A-AA9E-042357BB31AE</RequestId>
+	</Context>
+
+	<!-- Document is present in all request types. -->
+	<Document>
+		<DocumentType>Factuur</DocumentType>
+		<!-- Since there's no generate, the StoreDocument has to contain a binary. -->
+		<Binary>base64 encoded binary document goes here</Binary>
+	</Document>
+
+	<Store>
+		<!-- Optional: specify archive, otherwise it's determined by the document type. -->
+		<Permanent />
+	</Store>
+</StoreDocumentRequest>

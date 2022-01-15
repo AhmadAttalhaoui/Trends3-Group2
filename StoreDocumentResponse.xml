@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<StoreDocumentResponse>
+	<Context>
+		<!-- Identifier for the application so it knows what response it receives. -->
+		<RequestId>91940CA8-BF5C-400A-AA9E-042357BB31AE</RequestId>
+		<Status>Success</Status>
+	</Context>
+</StoreDocumentResponse>
