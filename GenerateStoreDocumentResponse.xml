@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GenerateStoreDocumentResponse>
+	<Context>
+		<!-- Identifier for the application so it knows what response it receives. -->
+		<RequestId>91940CA8-BF5C-400A-AA9E-042357BB31AE</RequestId>
+		<Status>Failure</Status>
+		<!-- this contains detailed information of every step. -->
+		<Steps>
+			<!-- Information about the Generate part. -->
+			<Generate>
+				<!-- In case of failure, "Errors" is present with what went wrong. -->
+				<Status>Failure</Status>
+				<Errors>
+					<Error>The 'name' tag is required and not present.</Error>
+				</Errors>
+			</Generate>
+			<Store>
+				<Status>Success</Status>
+			</Store>
+		</Steps>
+	</Context>
+</GenerateStoreDocumentResponse>
