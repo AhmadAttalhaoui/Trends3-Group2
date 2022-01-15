@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<StorageRequest>
+	<Ticket>BB5C7730-AFC2-4515-A0DC-9672EA9A7B19</Ticket>
+	<DocumentType>Factuur</DocumentType>
+	<Binary>b64 binary here</Binary>
+</StorageRequest>

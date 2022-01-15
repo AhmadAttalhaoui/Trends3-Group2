@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<StorageResponse>
+	<Ticket>229D154C-B004-42D0-A61C-DDEDD2D3EEDA</Ticket>
+	<!-- Success / Failure depending on the result. -->
+	<Status>Failure</Status>
+	<!-- If failure: Errors is present, otherwise this tag is omitted. -->
+	<Errors>
+		<Error>Bestand kon niet worden opgeslagen</Error>
+	</Errors>
+</StorageResponse>
