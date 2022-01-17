@@ -4,18 +4,21 @@
 //connection.Open();
 
 using System;
+using System.Collections;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
+
+
 
 namespace Trends3Interface
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
            
-            var xml_path = "C:\\Trends3\\startcode\\Trends3Interface";
+            var xml_path = "C:\\Users\\user\\source\\repos\\Trends3-Group2\\startcode\\Trends3Interface";
             var xsd_path = new Uri(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)).LocalPath;
 
             //string[] errorList = new string[];
@@ -41,11 +44,22 @@ namespace Trends3Interface
             {
                 Console.WriteLine("Validation succeeded");
             }
-            
+
+            Queue<IXmlLineInfo> tickets = new Queue<IXmlLineInfo>();
+
+            tickets = await TicketsAsync(2);
+
+            for (int i = 0; i < tickets.Count; i++)
+            {
+                doc.Element("Ticket");
+                tickets.Enqueue(doc);
+            }
+
         }
 
-/*laat ons testen*/
-
-       
+        private static Task<Queue<IXmlLineInfo>> TicketsAsync(int v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
