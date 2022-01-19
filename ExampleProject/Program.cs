@@ -18,7 +18,9 @@ namespace Trends3Interface
         static async Task Main(string[] args)
         {
 
-            var xml_path = "C:\\Users\\ahmad\\source\\repos\\Trends3-Group2";
+           
+            var xml_path = "C:\\Users\\user\\source\\repos\\Trends3-Group2\\startcode\\Trends3Interface";
+
             var xsd_path = new Uri(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)).LocalPath;
 
             //string[] errorList = new string[];
@@ -46,6 +48,7 @@ namespace Trends3Interface
                 Console.WriteLine("Validation succeeded");
                 tickets.Enqueue(doc);
             }
+
             Console.WriteLine(tickets.Count);
              
             /*tickets = await TicketsAsync(2);*/
@@ -64,5 +67,6 @@ namespace Trends3Interface
         {
             throw new NotImplementedException();
         }*/
+
     }
 }
