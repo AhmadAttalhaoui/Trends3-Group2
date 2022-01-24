@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XML", "XML", "{2BCE3157-9CB4-41F6-9A8A-8CAEEC8BE776}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Broker", "Broker", "{9A4BFAF3-344C-429A-AB38-857B9D9F2E9B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requests", "Requests", "{65628FCC-66A7-4865-806C-A7AD6F2CB161}"
+	ProjectSection(SolutionItems) = preProject
+		GenerateDocumentRequest.xml = GenerateDocumentRequest.xml
+		GenerateStoreDocumentRequest.xml = GenerateStoreDocumentRequest.xml
+		StoreDocumentRequest.xml = StoreDocumentRequest.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Responses", "Responses", "{2F4765C9-A2FE-4691-9199-E77F3EF0C9AD}"
+	ProjectSection(SolutionItems) = preProject
+		GenerateDocumentResponse.xml = GenerateDocumentResponse.xml
+		GenerateStoreDocumentResponse.xml = GenerateStoreDocumentResponse.xml
+		StoreDocumentResponse.xml = StoreDocumentResponse.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generation", "Generation", "{CF79A61E-FAB0-4AD9-AECA-B6040F293FEC}"
+	ProjectSection(SolutionItems) = preProject
+		GenerationRequest.xml = GenerationRequest.xml
+		GenerationResponse.xml = GenerationResponse.xml
+		test.xsl = test.xsl
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Store", "Store", "{14715E03-36C8-4370-B07B-4E7E69C7D837}"
+	ProjectSection(SolutionItems) = preProject
+		StorageRequest.xml = StorageRequest.xml
+		StorageResponse.xml = StorageResponse.xml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleProject", "ExampleProject\ExampleProject.csproj", "{B7013F46-1DD9-4D64-904B-C2CBEF186D57}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{8E85DF04-7E16-4449-A03C-D602AEA69C6A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7013F46-1DD9-4D64-904B-C2CBEF186D57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7013F46-1DD9-4D64-904B-C2CBEF186D57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7013F46-1DD9-4D64-904B-C2CBEF186D57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7013F46-1DD9-4D64-904B-C2CBEF186D57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E85DF04-7E16-4449-A03C-D602AEA69C6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E85DF04-7E16-4449-A03C-D602AEA69C6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E85DF04-7E16-4449-A03C-D602AEA69C6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E85DF04-7E16-4449-A03C-D602AEA69C6A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9A4BFAF3-344C-429A-AB38-857B9D9F2E9B} = {2BCE3157-9CB4-41F6-9A8A-8CAEEC8BE776}
+		{65628FCC-66A7-4865-806C-A7AD6F2CB161} = {9A4BFAF3-344C-429A-AB38-857B9D9F2E9B}
+		{2F4765C9-A2FE-4691-9199-E77F3EF0C9AD} = {9A4BFAF3-344C-429A-AB38-857B9D9F2E9B}
+		{CF79A61E-FAB0-4AD9-AECA-B6040F293FEC} = {2BCE3157-9CB4-41F6-9A8A-8CAEEC8BE776}
+		{14715E03-36C8-4370-B07B-4E7E69C7D837} = {2BCE3157-9CB4-41F6-9A8A-8CAEEC8BE776}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BE7B1B62-D940-4D9A-81F2-BCDBD52A9285}
+	EndGlobalSection
+EndGlobal

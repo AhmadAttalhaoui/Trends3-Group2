@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="test.xsl"?>
+<GenerationRequest>
+	<Ticket>229D154C-B004-42D0-A61C-DDEDD2D3EEDA</Ticket>
+	<DocumentType>Factuur</DocumentType>
+	<Payload>
+		<Naam>Wannes</Naam>
+		<Bedrag>20.00</Bedrag>
+	</Payload>
+</GenerationRequest>
+
+<!--229D154C-B004-42D0-A61C-DDEDD2D3EEDA-->
