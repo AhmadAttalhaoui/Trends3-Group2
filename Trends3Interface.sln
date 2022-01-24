@@ -25,6 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generation", "Generation", 
 	ProjectSection(SolutionItems) = preProject
 		GenerationRequest.xml = GenerationRequest.xml
 		GenerationResponse.xml = GenerationResponse.xml
+		test.xsl = test.xsl
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Store", "Store", "{14715E03-36C8-4370-B07B-4E7E69C7D837}"
@@ -33,7 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Store", "Store", "{14715E03
 		StorageResponse.xml = StorageResponse.xml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleProject", "ExampleProject\ExampleProject.csproj", "{B7013F46-1DD9-4D64-904B-C2CBEF186D57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleProject", "ExampleProject\ExampleProject.csproj", "{B7013F46-1DD9-4D64-904B-C2CBEF186D57}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{8E85DF04-7E16-4449-A03C-D602AEA69C6A}"
 EndProject
