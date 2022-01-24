@@ -6,7 +6,7 @@
 using System;
 
 using System.Collections.Generic;
-=======
+using SautinSoft;
 using System.Collections;
 
 using System.Xml;
@@ -23,11 +23,47 @@ namespace Trends3Interface
         {
 
 
+            // invert van html to string word document.
+
+            SautinSoft.HtmlToRtf h = new SautinSoft.HtmlToRtf();
+
+            string inputFile = @"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\GenerationRequest.xml";
+            string outputFile = @"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\result.txt";
+
+            if (h.OpenHtml(inputFile))
+            {
+                bool ok = h.ToText(outputFile);
+
+                if (ok)
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(outputFile){ UseShellExecute = true });
+            }
+
+            string text = File.ReadAllText(@"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\result.txt");
+            Console.WriteLine(text);
+
+            string myDataEncoded = EncodeTo64(text);
+
+            Console.WriteLine(myDataEncoded);
+
+            string myDataUnencoded = DecodeFrom64(myDataEncoded);
+
+            Console.WriteLine(myDataUnencoded);
+
+
+
+
+
+
+
+
+
             //var xml_path = "C:\\Trends3\\startcode\\Trends3Interface";
             //
-            var request_xml_path = "C:\\Users\\Rogier\\source\\repos\\Trends3_Group2";
-=======
-           
+            //var request_xml_path = "C:\\Users\\Rogier\\source\\repos\\Trends3_Group2";
+            var request_xml_path = @"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2";
+
+
+
 
             var xsd_path = new Uri(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)).LocalPath;
 
@@ -44,14 +80,15 @@ namespace Trends3Interface
             request.Load(request_xml_path + "\\GenerationRequest.xml");
             XmlNode ticket_node_req = request.SelectSingleNode("GenerationRequest/Ticket");
             string ticket_number = ticket_node_req.InnerText;
-=======
 
 
             bool validationErrors = false;
 
             //Code om GenerationResponse.xml aan te passen. 
             XmlDocument response = new XmlDocument();
-            response.Load(@"C:\\Users\\Rogier\\source\\repos\\Trends3_Group2\\GenerationResponse.xml");
+            //response.Load(@"C:\\Users\\Rogier\\source\\repos\\Trends3_Group2\\GenerationResponse.xml");
+            response.Load(@"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\GenerationResponse.xml");
+
             XmlNode ticket_node = response.SelectSingleNode("GenerationResponse/Ticket");
             XmlNode status_node = response.SelectSingleNode("GenerationResponse/Status");
             XmlNode error_node = response.SelectSingleNode("GenerationResponse/Errors");
@@ -73,18 +110,19 @@ namespace Trends3Interface
                 status_node.InnerText = "Failure";
                 foreach (string item in errorList)
                 {
-                    
+
                     ticket_node.InnerText = ticket_number;
-                    
+
                     XmlElement elem = response.CreateElement("Error");
                     elem.InnerText = item;
                     error_node.AppendChild(elem);
                     Console.WriteLine(response.InnerXml);
-                    response.Save(@"C:\\Users\\Rogier\\source\\repos\\Trends3_Group2\\GenerationResponse.xml");
+                    //response.Save(@"C:\\Users\\Rogier\\source\\repos\\Trends3_Group2\\GenerationResponse.xml");
+                    response.Save(@"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\GenerationResponse.xml");
+
 
                 }
-=======
-              
+
             }
             else
             {
@@ -93,22 +131,23 @@ namespace Trends3Interface
                 //
                 ticket_node.InnerText = ticket_number;
                 status_node.InnerText = "Success";
-                binary_node.InnerText = "base-64 code";
+                binary_node.InnerText = myDataEncoded;
                 Console.WriteLine(response.InnerXml);
 
-                response.Save(@"C:\\Users\\Rogier\\source\\repos\\Trends3_Group2\\GenerationResponse.xml");
+                //response.Save(@"C:\\Users\\Rogier\\source\\repos\\Trends3_Group2\\GenerationResponse.xml");
+                response.Save(@"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\GenerationResponse.xml");
 
 
             }
 
             //zet generation response op out queue
 
-=======
-                Console.WriteLine("Validation succeeded");
-                tickets.Enqueue(doc);
-            }
 
-            Console.WriteLine(tickets.Count);
+            //    Console.WriteLine("Validation succeeded");
+            //    tickets.Enqueue(doc);
+            //}
+
+            //Console.WriteLine(tickets.Count);
              
             /*tickets = await TicketsAsync(2);*/
 
@@ -123,10 +162,47 @@ namespace Trends3Interface
 
         }
 
-      /*  private static Task<Queue<IXmlLineInfo>> TicketsAsync(int v)
+        /*  private static Task<Queue<IXmlLineInfo>> TicketsAsync(int v)
+          {
+              throw new NotImplementedException();
+          }*/
+        public static string Base64Encode(string plainText)
         {
-            throw new NotImplementedException();
-        }*/
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+
+        static public string EncodeTo64(string toEncode)
+
+        {
+
+            byte[] toEncodeAsBytes
+
+                  = System.Text.ASCIIEncoding.ASCII.GetBytes(toEncode);
+
+            string returnValue
+
+                  = System.Convert.ToBase64String(toEncodeAsBytes);
+
+            return returnValue;
+
+        }
+
+        static public string DecodeFrom64(string encodedData)
+
+        {
+
+            byte[] encodedDataAsBytes
+
+                = System.Convert.FromBase64String(encodedData);
+
+            string returnValue =
+
+               System.Text.ASCIIEncoding.ASCII.GetString(encodedDataAsBytes);
+
+            return returnValue;
+
+        }
 
     }
 }
