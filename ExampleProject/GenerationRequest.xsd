@@ -25,8 +25,22 @@
 				<xs:element name="Payload">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="Naam" type="xs:string" />
-							<xs:element name="Bedrag" type="xs:decimal" />
+
+							<xs:element name="Naam">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="5"/>
+										<xs:maxLength value="150"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+
+							<xs:element name="Bedrag">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
