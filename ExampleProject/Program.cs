@@ -8,12 +8,12 @@ using System;
 using System.Collections.Generic;
 using SautinSoft;
 using System.Collections;
-
+using RabbitMQ.Client;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
-
-
+using System.Text;
+using Newtonsoft.Json;
 
 namespace Trends3Interface
 {
@@ -22,14 +22,44 @@ namespace Trends3Interface
         static async Task Main(string[] args)
         {
 
+            /*string UserName = "guest";
+
+            string Password = "guest";
+
+            string HostName = "localhost";*/
+
+
+
+            //Main entry point to the RabbitMQ .NET AMQP client
+
+            var connectionFactory = new RabbitMQ.Client.ConnectionFactory()
+
+            {
+                Uri = new Uri("amqp://guest:guest@localhost:5672"),
+                /*UserName = UserName,
+
+                Password = Password,
+
+                HostName = HostName*/
+
+            };
+            var connection = connectionFactory.CreateConnection();
+            var model = connection.CreateModel();
+            model.QueueDeclare("demo-queue",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null) ;
 
             // invert van html to string word document.
 
             SautinSoft.HtmlToRtf h = new SautinSoft.HtmlToRtf();
 
-            string inputFile = @"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\GenerationRequest.xml";
-            string outputFile = @"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\result.txt";
-
+            /*string inputFile = @"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\GenerationRequest.xml";*/
+            string inputFile = @"C:\Users\user\source\repos\Trends3-Group2\GenerationRequest.xml";
+        /* string outputFile = @"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\result.txt";*/
+        
+                string outputFile = @"C:\Users\user\source\repos\Trends3-Group2\result.txt";
             if (h.OpenHtml(inputFile))
             {
                 bool ok = h.ToText(outputFile);
@@ -38,7 +68,8 @@ namespace Trends3Interface
                     System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(outputFile){ UseShellExecute = true });
             }
 
-            string text = File.ReadAllText(@"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\result.txt");
+            /*string text = File.ReadAllText(@"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\result.txt");*/
+            string text = File.ReadAllText(@"C:\Users\user\source\repos\Trends3-Group2\result.txt");
             Console.WriteLine(text);
 
             string myDataEncoded = EncodeTo64(text);
@@ -49,6 +80,10 @@ namespace Trends3Interface
 
             Console.WriteLine(myDataUnencoded);
 
+            EncodeTo64(text);
+            var message = new { text };
+            var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+            model.BasicPublish("xml", "queus",null, body);
 
 
 
@@ -148,7 +183,7 @@ namespace Trends3Interface
             //}
 
             //Console.WriteLine(tickets.Count);
-             
+
             /*tickets = await TicketsAsync(2);*/
 
             /*for (int i = 0; i < tickets.Count; i++)
@@ -157,9 +192,14 @@ namespace Trends3Interface
                 tickets.Enqueue(doc);
                 
             }
-
             Console.WriteLine(tickets);*/
+            /*byte[] messagebuffer = Encoding.Default.GetBytes("response");
+            var properties = model.CreateBasicProperties();
 
+            properties.Persistent = false;
+            model.BasicPublish("demoExchange", "ticket_number",  request, messagebuffer);*/
+
+            /*Console.WriteLine("Message Sent");*/
         }
 
         /*  private static Task<Queue<IXmlLineInfo>> TicketsAsync(int v)
