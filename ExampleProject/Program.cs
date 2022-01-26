@@ -25,79 +25,6 @@ namespace Trends3Interface
         {
 
 
-            SautinSoft.HtmlToRtf h = new SautinSoft.HtmlToRtf();
-
-            string inputFile = @"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\GenerationRequest.xml";
-            string outputFile = @"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\result.txt";
-        
-            if (h.OpenHtml(inputFile))
-            {
-                bool ok = h.ToText(outputFile);
-
-                if (ok)
-                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(outputFile){ UseShellExecute = true });
-            }
-
-            string text = File.ReadAllText(@"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\result.txt");
-            Console.WriteLine(text);
-
-            string myDataEncoded = EncodeTo64(text);
-
-            Console.WriteLine(myDataEncoded);
-
-            string myDataUnencoded = DecodeFrom64(myDataEncoded);
-
-            Console.WriteLine(myDataUnencoded);
-
-
-            // IN QUEUE
-
-            string isResent = "Y";
-            int numberOfTimes = 5;
-
-
-            while (string.Equals(isResent, "Y", StringComparison.OrdinalIgnoreCase))
-            {
-                for (int i=1; i< numberOfTimes; i++)
-                {
-                    var connectionFactory = new RabbitMQ.Client.ConnectionFactory()
-
-                    {
-                        Uri = new Uri("amqp://guest:guest@localhost:5672"),
-
-                    };
-
-                    using (var connection = connectionFactory.CreateConnection())
-                    using (var model = connection.CreateModel())
-                    {
-                        model.QueueDeclare(queue: QueueName,
-                            durable: true,
-                            exclusive: false,
-                            autoDelete: false,
-                            arguments: null);
-
-                        string message = text + i;
-                        var body = Encoding.UTF8.GetBytes(message);
-
-                        var properties = model.CreateBasicProperties();
-                        properties.Persistent = true;
-                        model.BasicPublish(exchange: "", routingKey: QueueName, basicProperties: properties, body: body);
-                        Console.WriteLine($" {i} keer bericht verzonden");
-
-                    }
-
-                }
-
-                
-                Console.WriteLine("Opnieuw queue verzenden? Druk Y om te verzenden anders N");
-                isResent = Console.ReadLine();
-                Console.WriteLine("Hoeveel keren wilt u de queue verzenden?");
-                string numberOfTimesStr = Console.ReadLine();
-
-                Int32.TryParse(numberOfTimesStr, out numberOfTimes);
-            }
-
-
            
 
             var request_xml_path = @"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2";
@@ -109,7 +36,6 @@ namespace Trends3Interface
 
 
 
-            List<string> errorList = new List<string>();
 
             XmlSchemaSet schema = new XmlSchemaSet();
             schema.Add("", xsd_path + "\\GenerationRequest.xsd");
@@ -136,11 +62,12 @@ namespace Trends3Interface
             XmlNode binary_node = response.SelectSingleNode("GenerationResponse/Binary");
 
 
-           req_doc.Validate(schema, (s, e) =>
+            List<string> errorList = new List<string>();
+            req_doc.Validate(schema, (s, e) =>
             {
                 errorList.Add(e.Message);
                 validationErrors = true;
-                });
+            });
 
             if (validationErrors)
             {
@@ -149,31 +76,117 @@ namespace Trends3Interface
                 status_node.InnerText = "Failure";
                 foreach (string item in errorList)
                 {
+                        ticket_node.InnerText = ticket_number;
 
-                    ticket_node.InnerText = ticket_number;
+                        XmlElement elem = response.CreateElement("Error");
+                        elem.InnerText = item;
+                        error_node.AppendChild(elem);
+                        Console.WriteLine(response.InnerXml);
+                        //response.Save(@"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\GenerationResponse.xml");
 
-                    XmlElement elem = response.CreateElement("Error");
-                    elem.InnerText = item;
-                    error_node.AppendChild(elem);
-                    Console.WriteLine(response.InnerXml);
-                    response.Save(@"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\GenerationResponse.xml");
-
-
+                        Console.WriteLine("Error: Ticketnummer " + ticket_number + " bevat een fout");
+                        
                 }
+                
 
             }
             else
             {
+                SautinSoft.HtmlToRtf h = new SautinSoft.HtmlToRtf();
+
+                string inputFile = @"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\GenerationRequest.xml";
+                string outputFile = @"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\result.txt";
+
+                if (h.OpenHtml(inputFile))
+                {
+                    bool ok = h.ToText(outputFile);
+
+                    if (ok)
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(outputFile) { UseShellExecute = true });
+                }
+
+                Console.WriteLine("XML naar HTML -> string: ");
+
+                string text = File.ReadAllText(@"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\result.txt");
+                Console.WriteLine(text);
+
+                string myDataEncoded = EncodeTo64(text);
+
+                Console.WriteLine("HTML naar Base64: " + myDataEncoded + "\r\n");
+
+                string myDataUnencoded = DecodeFrom64(myDataEncoded);
+
+                //Console.WriteLine(myDataUnencoded);
 
                 ticket_node.InnerText = ticket_number;
                 status_node.InnerText = "Success";
                 binary_node.InnerText = myDataEncoded;
                 Console.WriteLine(response.InnerXml);
+                Console.WriteLine("Succes: Ticketnummer " + ticket_number + " is correct uitgevoerd" + "\r\n");
 
-                response.Save(@"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\GenerationResponse.xml");
+
+                //response.Save(@"C:\Users\Gebruiker\Documents\GitHub\Trends3-Group2\GenerationResponse.xml");
+
+                // IN QUEUE
+
+                string isResent = "Y";
+                int numberOfTimes = 3;
+
+
+                while (string.Equals(isResent, "Y", StringComparison.OrdinalIgnoreCase))
+                {
+
+                    for (int i = 0; i < numberOfTimes; i++)
+                    {
+                        var connectionFactory = new RabbitMQ.Client.ConnectionFactory()
+
+                        {
+                            Uri = new Uri("amqp://guest:guest@localhost:5672"),
+
+                        };
+
+                        using (var connection = connectionFactory.CreateConnection())
+                        using (var model = connection.CreateModel())
+                        {
+                            model.QueueDeclare(queue: QueueName,
+                                durable: true,
+                                exclusive: false,
+                                autoDelete: false,
+                                arguments: null);
+
+                            string message = text + i;
+                            var body = Encoding.UTF8.GetBytes(message);
+
+                            var properties = model.CreateBasicProperties();
+                            properties.Persistent = true;
+                            model.BasicPublish(exchange: "", routingKey: QueueName, basicProperties: properties, body: body);
+                            Console.WriteLine($" {i} keer bericht verzonden");
+                          
+                        }
+
+                    }
+
+
+                    Console.WriteLine("Opnieuw queue verzenden? Druk Y om te verzenden anders N");
+                    //isResent = Console.ReadLine();
+                    if (isResent == Console.ReadLine())
+                    {
+                        Console.WriteLine("Hoeveel keren wilt u de queue verzenden?");
+                        string numberOfTimesStr = Console.ReadLine();
+
+                        Int32.TryParse(numberOfTimesStr, out numberOfTimes);
+                    } else
+                    {
+                        System.Environment.Exit(1);
+                        return;
+                    }
+                    
+                    
+                }
 
 
             }
+
 
         }
 
